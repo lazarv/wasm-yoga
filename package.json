@@ -1,0 +1,32 @@
+{
+  "name": "@lazarv/wasm-yoga",
+  "version": "1.0.0",
+  "description": "This is wasm-yoga, a Yoga Layout prebuilt version using WebAssembly",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "maintainers": [
+    "lazarv"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lazarv/wasm-yoga"
+  },
+  "bugs": {
+    "url": "https://github.com/lazarv/wasm-yoga/issues"
+  },
+  "license": "MIT",
+  "scripts": {
+    "prebuild": "git submodule init && git submodule update",
+    "build": "mkdir -p build && cd build && emcmake cmake .. && emmake make && cd -"
+  },
+  "keywords": [
+    "yoga",
+    "wasm",
+    "webassembly",
+    "emscripten"
+  ],
+  "author": "Viktor Lázár <lazarv1982@gmail.com>",
+  "devDependencies": {
+    "nbind": "^0.3.15"
+  }
+}

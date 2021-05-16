@@ -1,0 +1,278 @@
+enum YGAlign
+{
+	"YGAlignAuto",
+	"YGAlignFlexStart",
+	"YGAlignCenter",
+	"YGAlignFlexEnd",
+	"YGAlignStretch",
+	"YGAlignBaseline",
+	"YGAlignSpaceBetween",
+	"YGAlignSpaceAround"
+};
+
+enum YGDimension
+{
+	"YGDimensionWidth",
+	"YGDimensionHeight"
+};
+
+enum YGDirection
+{
+	"YGDirectionInherit",
+	"YGDirectionLTR",
+	"YGDirectionRTL"
+};
+
+enum YGDisplay
+{
+	"YGDisplayFlex",
+	"YGDisplayNone"
+};
+
+enum YGEdge
+{
+	"YGEdgeLeft",
+	"YGEdgeTop",
+	"YGEdgeRight",
+	"YGEdgeBottom",
+	"YGEdgeStart",
+	"YGEdgeEnd",
+	"YGEdgeHorizontal",
+	"YGEdgeVertical",
+	"YGEdgeAll"
+};
+
+enum YGExperimentalFeature
+{
+	"YGExperimentalFeatureWebFlexBasis"
+};
+
+enum YGFlexDirection
+{
+	"YGFlexDirectionColumn",
+	"YGFlexDirectionColumnReverse",
+	"YGFlexDirectionRow",
+	"YGFlexDirectionRowReverse"
+};
+
+enum YGJustify
+{
+	"YGJustifyFlexStart",
+	"YGJustifyCenter",
+	"YGJustifyFlexEnd",
+	"YGJustifySpaceBetween",
+	"YGJustifySpaceAround",
+	"YGJustifySpaceEvenly"
+};
+
+enum YGMeasureMode
+{
+	"YGMeasureModeUndefined",
+	"YGMeasureModeExactly",
+	"YGMeasureModeAtMost"
+};
+
+enum YGNodeType{
+	"YGNodeTypeDefault",
+	"YGNodeTypeText"
+};
+
+enum YGOverflow
+{
+	"YGOverflowVisible",
+	"YGOverflowHidden",
+	"YGOverflowScroll"
+};
+
+enum YGPositionType
+{
+	"YGPositionTypeStatic",
+	"YGPositionTypeRelative",
+	"YGPositionTypeAbsolute"
+};
+
+enum YGUnit
+{
+	"YGUnitUndefined",
+	"YGUnitPoint",
+	"YGUnitPercent",
+	"YGUnitAuto"
+};
+
+enum YGWrap
+{
+	"YGWrapNoWrap",
+	"YGWrapWrap",
+	"YGWrapWrapReverse"
+};
+
+interface Config
+{
+	Config create();
+	void destroy(Config config);
+
+	void setExperimentalFeatureEnabled(long feature, boolean enabled);
+	void setPointScaleFactor(float pixelsInPoint);
+	boolean isExperimentalFeatureEnabled(long feature);
+};
+
+[NoDelete]
+interface Size
+{
+  void Size();
+  void Size(double width, double height);
+};
+
+[NoDelete]
+interface Value
+{};
+
+[NoDelete]
+interface Layout
+{};
+
+[Prefix="nbind::"]
+interface cbFunction
+{
+};
+
+interface Node
+{
+	Node createDefault();
+	Node createWithConfig(Config config);
+	void destroy(Node node);
+
+	// Style setters
+	void copyStyle([Ref] Node other);
+
+  void setPositionType(long positionType);
+  void setPosition(long edge, double position);
+  void setPositionPercent(long edge, double position);
+
+  void setAlignContent(long alignContent);
+  void setAlignItems(long alignItems);
+  void setAlignSelf(long alignSelf);
+  void setFlexDirection(long flexDirection);
+  void setFlexWrap(long flexWrap);
+  void setJustifyContent(long justifyContent);
+
+  void setMargin(long edge, double margin);
+  void setMarginPercent(long edge, double margin);
+  void setMarginAuto(long edge);
+
+  void setOverflow(long overflow);
+  void setDisplay(long display);
+
+  void setFlex(double flex);
+  void setFlexBasis(double flexBasis);
+  void setFlexBasisPercent(double flexBasis);
+  void setFlexBasisAuto();
+  void setFlexGrow(double flexGrow);
+  void setFlexShrink(double flexShrink);
+
+  void setWidth(double width);
+  void setWidthPercent(double width);
+  void setWidthAuto();
+  void setHeight(double height);
+  void setHeightPercent(double height);
+  void setHeightAuto();
+
+  void setMinWidth(double minWidth);
+  void setMinWidthPercent(double minWidth);
+  void setMinHeight(double minHeight);
+  void setMinHeightPercent(double minHeight);
+
+  void setMaxWidth(double maxWidth);
+  void setMaxWidthPercent(double maxWidth);
+  void setMaxHeight(double maxHeight);
+  void setMaxHeightPercent(double maxHeight);
+
+  void setAspectRatio(double aspectRatio);
+
+  void setBorder(long edge, double border);
+
+  void setPadding(long edge, double padding);
+  void setPaddingPercent(long edge, double padding);
+
+	// Style getters
+  long getPositionType();
+  [Value] Value getPosition(long edge);
+
+  long getAlignContent();
+  long getAlignItems();
+  long getAlignSelf();
+  long getFlexDirection();
+  long getFlexWrap();
+  long getJustifyContent();
+
+  [Value] Value getMargin(long edge);
+
+  long getOverflow();
+  long getDisplay();
+
+  [Value] Value getFlexBasis();
+  double getFlexGrow();
+  double getFlexShrink();
+
+  [Value] Value getWidth();
+  [Value] Value getHeight();
+
+  [Value] Value getMinWidth();
+  [Value] Value getMinHeight();
+
+  [Value] Value getMaxWidth();
+  [Value] Value getMaxHeight();
+
+  double getAspectRatio();
+
+  double getBorder(long edge);
+
+  [Value] Value getPadding(long edge);
+
+	// Tree hierarchy mutators
+  void insertChild(Node child, unsigned long index);
+  void removeChild(Node child);
+
+	// Tree hierarchy inspectors
+  unsigned long getChildCount();
+
+  // The following functions cannot be const because they could discard const
+  // qualifiers (ex: constNode->getChild(0)->getParent() wouldn't be const)
+
+  Node getParent();
+  Node getChild(unsigned long index);
+
+	// Measure func mutators
+  void setMeasureFunc([Ref] cbFunction measureFunc);
+  void unsetMeasureFunc();
+
+	// Dirtied func mutators
+  void setDirtiedFunc([Ref] cbFunction dirtiedFunc);
+  void unsetDirtiedFunc();
+
+	// Dirtiness accessors
+  void markDirty();
+  boolean isDirty();
+
+	// Layout mutators
+  void calculateLayout(double width, double height, long direction);
+
+	// Layout inspectors
+  double getComputedLeft();
+  double getComputedRight();
+
+  double getComputedTop();
+  double getComputedBottom();
+
+  double getComputedWidth();
+  double getComputedHeight();
+
+  [Value] Layout getComputedLayout();
+
+  double getComputedMargin(long edge);
+  double getComputedBorder(long edge);
+  double getComputedPadding(long edge);
+
+  void setIsReferenceBaseline(boolean isReferenceBaseline);
+  boolean isReferenceBaseline();
+};

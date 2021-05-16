@@ -1,0 +1,15 @@
+diff --git a/javascript/sources/Node.cc b/javascript/sources/Node.cc
+index 421cfa71..5a74862e 100644
+--- a/javascript/sources/Node.cc
++++ b/javascript/sources/Node.cc
+@@ -144,6 +144,10 @@ void Node::setFlexBasisPercent(double flexBasis) {
+   YGNodeStyleSetFlexBasisPercent(m_node, flexBasis);
+ }
+ 
++void Node::setFlexBasisAuto() {
++  YGNodeStyleSetFlexBasisAuto(m_node);
++}
++
+ void Node::setFlexGrow(double flexGrow) {
+   YGNodeStyleSetFlexGrow(m_node, flexGrow);
+ }
