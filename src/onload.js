@@ -15,9 +15,33 @@ delete Module.Node.prototype.destroy;
 
 const orig__setMeasureFunc = Module.Node.prototype.setMeasureFunc;
 Module.Node.prototype.setMeasureFunc = function (fn) {
+  let prevResult;
   return orig__setMeasureFunc.call(
     this,
-    __nbind_register_callback_signature_handler(this, fn)
+    __nbind_register_callback_signature_handler(this, (...args) => {
+      if (prevResult && typeof prevResult.ptr === "number") {
+        Module._free(prevResult.ptr);
+      }
+      let result = fn(...args);
+      if (
+        result &&
+        typeof result.ptr === "undefined" &&
+        typeof result.width === "number" &&
+        typeof result.height === "number"
+      ) {
+        result = new Module.Size(result.width, result.height);
+      }
+      if (
+        result &&
+        Array.isArray(result) &&
+        typeof result[0] === "number" &&
+        typeof result[1] === "number"
+      ) {
+        result = new Module.Size(result[0], result[1]);
+      }
+      prevResult = result;
+      return result;
+    })
   );
 };
 

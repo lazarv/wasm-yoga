@@ -124,7 +124,7 @@ type YGMeasureFunc = (
   widthMode: YGMeasureMode,
   height: number,
   heightMode: YGMeasureMode
-) => YGSize;
+) => YGSize | { width: number; height: number } | [number, number];
 
 type YGDirtiedFunc = () => void;
 
